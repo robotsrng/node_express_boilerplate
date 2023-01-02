@@ -1,0 +1,1 @@
+export type TIDParams = {id: number}
