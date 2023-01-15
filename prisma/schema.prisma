@@ -1,21 +1,52 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+enum Role {
+    ADMIN
+    USER
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt   DateTime
+}
+
+model User {
+    id         Int       @id @default(autoincrement())
+    email      String    @unique
+    password   String
+    first_name String?
+    last_name  String?
+    role       Role      @default(USER)
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+    deletedAt  DateTime?
 }
 
 model Project {
-  id        Int       @id @default(autoincrement())
-  title     String
-  content   String
-  imageUrl  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+    id        Int       @id @default(autoincrement())
+    title     String
+    content   String
+    imageUrl  String?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+}
+
+model File {
+    id        Int       @id @default(autoincrement())
+    title     String
+    author    String
+    imageUrl  String
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
 }
